@@ -1,0 +1,62 @@
+---
+# playbooks/nist_schedule.yml
+# Schedule weekly automated NIST compliance scans via cron
+# Run this ONCE to install the cron job on your Ansible controller
+#
+# Usage:
+#   ansible-playbook playbooks/nist_schedule.yml -i inventory.aws_ec2.yml
+
+- name: "Schedule Weekly NIST Compliance Scan"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    ansible_playbook_path: "/opt/ansible"
+    ansible_user_for_cron: "ansible"
+    log_dir: "/var/log/nist_compliance"
+
+  tasks:
+    - name: "Create log directory for compliance scans"
+      ansible.builtin.file:
+        path: "{{ log_dir }}"
+        state: directory
+        mode: '0750'
+        owner: "{{ ansible_user_for_cron }}"
+
+    - name: "Schedule weekly NIST compliance check (every Monday 02:00)"
+      ansible.builtin.cron:
+        name: "NIST Weekly Compliance Check"
+        minute: "0"
+        hour: "2"
+        weekday: "1"
+        job: >
+          ansible-playbook {{ ansible_playbook_path }}/playbooks/nist_check.yml
+          -i {{ ansible_playbook_path }}/inventory.aws_ec2.yml
+          -e "nist_fail_on_low_score=false"
+          >> {{ log_dir }}/nist_check_$(date +\%Y\%m\%d).log 2>&1
+        user: "{{ ansible_user_for_cron }}"
+        state: present
+
+    - name: "Schedule monthly NIST remediation (1st of month 03:00)"
+      ansible.builtin.cron:
+        name: "NIST Monthly Remediation"
+        minute: "0"
+        hour: "3"
+        day: "1"
+        job: >
+          ansible-playbook {{ ansible_playbook_path }}/playbooks/nist_remediate.yml
+          -i {{ ansible_playbook_path }}/inventory.aws_ec2.yml
+          >> {{ log_dir }}/nist_remediate_$(date +\%Y\%m\%d).log 2>&1
+        user: "{{ ansible_user_for_cron }}"
+        state: present
+
+    - name: "Schedule log cleanup (keep 90 days)"
+      ansible.builtin.cron:
+        name: "NIST Log Cleanup"
+        minute: "0"
+        hour: "4"
+        weekday: "0"
+        job: "find {{ log_dir }} -name '*.log' -mtime +90 -delete"
+        user: "{{ ansible_user_for_cron }}"
+        state: present

@@ -1,0 +1,16 @@
+
+- name: "Enable UFW Firewall"
+  hosts: all
+  become: true
+  tasks:
+    - name: "Deny SSH connection (Port 22/TCP)"
+      community.general.ufw:
+        rule: deny
+        port: '22'
+        proto: tcp
+
+    - name: "Enable UFW Firewall"
+      community.general.ufw:
+        state: enabled
+        policy: deny
+        direction: incoming

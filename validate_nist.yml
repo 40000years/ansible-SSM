@@ -1,0 +1,26 @@
+---
+- name: Validate NIST Compliance
+  hosts: all
+  become: yes
+  tasks:
+    - name: Check SSH configuration
+      ansible.builtin.command: sshd -T
+      register: sshd_config
+      changed_when: false
+
+    - name: Assert SSH hardening (Root Login must be NO)
+      ansible.builtin.assert:
+        that:
+          - "'permitrootlogin no' in sshd_config.stdout"
+        fail_msg: "NIST Check Failed: SSH Root Login is still ENABLED!"
+        success_msg: "NIST Check Passed: SSH Root Login is DISABLED."
+
+    - name: Check if auditd is running
+      ansible.builtin.service_facts:
+
+    - name: Assert audit logging is active
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.services['auditd.service'].state == 'running'
+        fail_msg: "NIST Check Failed: Auditd is NOT running!"
+        success_msg: "NIST Check Passed: Auditd is ACTIVE."

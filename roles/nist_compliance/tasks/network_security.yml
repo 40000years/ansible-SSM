@@ -1,0 +1,46 @@
+---
+# roles/nist_compliance/tasks/network_security.yml
+# ตาม source: roles/compliance_checks/tasks/network.yml
+# - Check firewall is active (ufw status)
+# - Check for unauthorized listening ports (ss -tlnH)
+# Note: source uses ufw only, prohibited_ports default ['23','21','69']
+
+- name: "Check firewall is active (ufw status)"
+  ansible.builtin.command: ufw status
+  register: firewall_status
+  changed_when: false
+  check_mode: false
+  failed_when: false
+
+- name: "Assert firewall is enabled"
+  ansible.builtin.assert:
+    that:
+      - "'Status: active' in firewall_status.stdout"
+    fail_msg: "NIST Check Failed: Firewall (ufw) is not active!"
+    success_msg: "NIST Check Passed: Firewall is active."
+  register: check_firewall
+  ignore_errors: true
+
+- name: "Check for unauthorized listening ports (ss -tlnH)"
+  ansible.builtin.command: ss -tlnH
+  register: listening_ports
+  changed_when: false
+  check_mode: false
+
+- name: "Verify only approved ports are open"
+  ansible.builtin.assert:
+    that:
+      - not (listening_ports.stdout | regex_search(':' ~ item ~ '\\s'))
+    fail_msg: "NIST Check Failed: Unauthorized port {{ item }} is listening!"
+    success_msg: "NIST Check Passed: Port {{ item }} is not listening."
+  loop: "{{ prohibited_ports | default(['23', '21', '69']) }}"
+  register: check_ports
+  ignore_errors: true
+
+- name: "Collect Network Security results"
+  ansible.builtin.set_fact:
+    nist_results: "{{ nist_results | default([]) + [
+      {'control': 'Network', 'check': 'Firewall (ufw) Active',          'status': 'PASS' if not check_firewall.failed else 'FAIL'},
+      {'control': 'Network', 'check': 'No Prohibited Ports Listening',
+        'status': 'PASS' if (check_ports.results | selectattr('failed', 'equalto', true) | list | length == 0) else 'FAIL'},
+    ] }}"

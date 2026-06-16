@@ -1,0 +1,23 @@
+---
+# roles/nist_compliance/tasks/main.yml
+# NIST SP 800-53 Compliance - ตาม source: access_control, encryption, logging, network_security
+
+- name: "[NIST] Run Access Control checks"
+  ansible.builtin.include_tasks: access_control.yml
+  tags: [nist, access_control]
+
+- name: "[NIST] Run Encryption checks"
+  ansible.builtin.include_tasks: encryption.yml
+  tags: [nist, encryption]
+
+- name: "[NIST] Run Audit & Logging checks"
+  ansible.builtin.include_tasks: audit_logging.yml
+  tags: [nist, logging]
+
+- name: "[NIST] Run Network Security checks"
+  ansible.builtin.include_tasks: network_security.yml
+  tags: [nist, network_security]
+
+- name: "[NIST] Generate compliance report"
+  ansible.builtin.include_tasks: report.yml
+  tags: [nist, report]

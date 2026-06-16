@@ -1,0 +1,100 @@
+{
+    "date": "2026-06-16T04:40:19Z",
+    "failed": 2,
+    "host": "i-0b192fa250b67431a",
+    "passed": 16,
+    "results": [
+        {
+            "check": "PermitRootLogin no",
+            "control": "SSH",
+            "status": "PASS"
+        },
+        {
+            "check": "PasswordAuthentication no",
+            "control": "SSH",
+            "status": "PASS"
+        },
+        {
+            "check": "X11Forwarding no",
+            "control": "SSH",
+            "status": "PASS"
+        },
+        {
+            "check": "MaxAuthTries <= 4",
+            "control": "SSH",
+            "status": "PASS"
+        },
+        {
+            "check": "ClientAliveInterval Configured",
+            "control": "SSH",
+            "status": "PASS"
+        },
+        {
+            "check": "faillock deny <= 5",
+            "control": "Lockout",
+            "status": "PASS"
+        },
+        {
+            "check": "minlen >= 14",
+            "control": "Password",
+            "status": "PASS"
+        },
+        {
+            "check": "dcredit (digit required)",
+            "control": "Password",
+            "status": "PASS"
+        },
+        {
+            "check": "ucredit (uppercase required)",
+            "control": "Password",
+            "status": "PASS"
+        },
+        {
+            "check": "lcredit (lowercase required)",
+            "control": "Password",
+            "status": "PASS"
+        },
+        {
+            "check": "LUKS Encryption on Data Volumes",
+            "control": "Encryption",
+            "status": "FAIL"
+        },
+        {
+            "check": "TLS Certificate Valid",
+            "control": "Encryption",
+            "status": "FAIL"
+        },
+        {
+            "check": "auditd Service Running",
+            "control": "Audit",
+            "status": "PASS"
+        },
+        {
+            "check": "Login Events Audited",
+            "control": "Audit",
+            "status": "PASS"
+        },
+        {
+            "check": "Identity Changes Audited",
+            "control": "Audit",
+            "status": "PASS"
+        },
+        {
+            "check": "Sudo Usage Audited",
+            "control": "Audit",
+            "status": "PASS"
+        },
+        {
+            "check": "Firewall (ufw) Active",
+            "control": "Network",
+            "status": "PASS"
+        },
+        {
+            "check": "No Prohibited Ports Listening",
+            "control": "Network",
+            "status": "PASS"
+        }
+    ],
+    "score": 88.9,
+    "total": 18
+}

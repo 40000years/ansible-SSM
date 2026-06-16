@@ -1,0 +1,25 @@
+---
+# roles/nist_compliance/defaults/main.yml
+# Default variables for NIST SP 800-53 compliance checks
+
+# Compliance framework label (for reporting)
+compliance_framework: "NIST SP 800-53 Rev. 5"
+
+# Minimum compliance score (percentage) before failing the playbook
+# Set nist_fail_on_low_score: true to enforce this threshold
+nist_min_score: 80
+nist_fail_on_low_score: false
+
+# AC: Ports that should NOT be listening
+prohibited_ports:
+  - "23"   # Telnet
+  - "21"   # FTP
+  - "69"   # TFTP
+  - "514"  # RSH
+  - "515"  # LPD Printer
+
+# SSH: Expected MaxAuthTries limit
+ssh_max_auth_tries: 4
+
+# SSH: Expected session timeout (seconds) - max 900 (15 min)
+ssh_client_alive_interval_max: 900

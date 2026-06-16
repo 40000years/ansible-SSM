@@ -1,0 +1,62 @@
+---
+# roles/nist_compliance/tasks/audit_logging.yml
+# ตาม source: validate_compliance.yml + remediate_compliance.yml (audit rules section)
+# - auditd service running
+# - Audit rules: logins (-w /var/log/faillog), identity (-w /etc/passwd), sudo (-w /etc/sudoers)
+
+- name: "Check if auditd is running"
+  ansible.builtin.service_facts:
+
+- name: "Assert audit logging is active (auditd running)"
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.services['auditd.service'] is defined
+      - ansible_facts.services['auditd.service'].state == 'running'
+    fail_msg: "NIST Check Failed: Auditd is NOT running!"
+    success_msg: "NIST Check Passed: Auditd is ACTIVE."
+  register: check_auditd_running
+  ignore_errors: true
+
+- name: "Read all audit rules"
+  ansible.builtin.shell: |
+    auditctl -l 2>/dev/null || cat /etc/audit/rules.d/*.rules 2>/dev/null || echo ""
+  register: audit_rules_content
+  changed_when: false
+  check_mode: false
+  ignore_errors: true
+
+- name: "Assert authentication events are audited (faillog/lastlog)"
+  ansible.builtin.assert:
+    that:
+      - audit_rules_content.stdout is regex('/var/log/(faillog|lastlog|tallylog)')
+    fail_msg: "NIST Check Failed: Login events not audited!"
+    success_msg: "NIST Check Passed: Login events are audited."
+  register: check_audit_logins
+  ignore_errors: true
+
+- name: "Assert identity changes are audited (/etc/passwd)"
+  ansible.builtin.assert:
+    that:
+      - audit_rules_content.stdout is regex('/etc/passwd')
+    fail_msg: "NIST Check Failed: Identity file changes not audited!"
+    success_msg: "NIST Check Passed: Identity file changes are audited."
+  register: check_audit_identity
+  ignore_errors: true
+
+- name: "Assert sudo usage is audited (/etc/sudoers)"
+  ansible.builtin.assert:
+    that:
+      - audit_rules_content.stdout is regex('/etc/sudoers')
+    fail_msg: "NIST Check Failed: Sudo usage not audited!"
+    success_msg: "NIST Check Passed: Sudo usage is audited."
+  register: check_audit_sudo
+  ignore_errors: true
+
+- name: "Collect Audit & Logging results"
+  ansible.builtin.set_fact:
+    nist_results: "{{ nist_results | default([]) + [
+      {'control': 'Audit', 'check': 'auditd Service Running',         'status': 'PASS' if not check_auditd_running.failed else 'FAIL'},
+      {'control': 'Audit', 'check': 'Login Events Audited',           'status': 'PASS' if not check_audit_logins.failed   else 'FAIL'},
+      {'control': 'Audit', 'check': 'Identity Changes Audited',       'status': 'PASS' if not check_audit_identity.failed else 'FAIL'},
+      {'control': 'Audit', 'check': 'Sudo Usage Audited',             'status': 'PASS' if not check_audit_sudo.failed     else 'FAIL'},
+    ] }}"

@@ -1,0 +1,38 @@
+---
+# playbooks/nist_check.yml
+# NIST SP 800-53 Full Compliance Check Playbook
+# Mode: Validation ONLY (read-only, no changes)
+#
+# Usage:
+#   ansible-playbook playbooks/nist_check.yml -i inventory.aws_ec2.yml
+#   ansible-playbook playbooks/nist_check.yml -i inventory.aws_ec2.yml --tags ac,au
+#   ansible-playbook playbooks/nist_check.yml -i inventory.aws_ec2.yml -e "nist_min_score=90 nist_fail_on_low_score=true"
+
+- name: "NIST SP 800-53 Compliance Check"
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    nist_results: []
+
+  roles:
+    - role: nist_compliance
+
+  post_tasks:
+    - name: "Summary: Compliance score per host"
+      ansible.builtin.debug:
+        msg: |
+          ===============================================================================
+          NIST SP 800-53 COMPLIANCE RECAP: {{ inventory_hostname }}
+          ===============================================================================
+          Score: {{ compliance_score | default('N/A') }}% ({{ passed_checks | default(0) }}/{{ total_checks | default(0) }} Passed)
+          
+          FAILED CONTROLS:
+          {% for result in nist_results if result.status == 'FAIL' %}
+            - [FAIL] {{ result.control }}: {{ result.check }}
+          {% endfor %}
+          {% if failed_checks | int == 0 %}
+            All checks passed!
+          {% endif %}
+          ===============================================================================

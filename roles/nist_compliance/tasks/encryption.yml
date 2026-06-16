@@ -1,0 +1,44 @@
+---
+# roles/nist_compliance/tasks/encryption.yml
+# ตาม source: roles/compliance_checks/tasks/encryption.yml
+# - Check LUKS encryption on data volumes (lsblk -f)
+# - Check TLS certificate validity (openssl x509 -checkend 0)
+
+- name: "Check if LUKS encryption is enabled on data volumes"
+  ansible.builtin.command: lsblk -f
+  register: block_devices
+  changed_when: false
+  check_mode: false
+
+- name: "Assert LUKS encryption is present on data volumes"
+  ansible.builtin.assert:
+    that:
+      - "'crypto_LUKS' in block_devices.stdout"
+    fail_msg: "NIST Check Failed: No LUKS-encrypted volumes found!"
+    success_msg: "NIST Check Passed: LUKS encryption detected."
+  register: check_luks
+  ignore_errors: true
+
+- name: "Check TLS certificate validity"
+  ansible.builtin.command: >
+    openssl x509 -in /etc/ssl/certs/app.pem -noout -checkend 0
+  register: cert_dates
+  changed_when: false
+  check_mode: false
+  failed_when: false
+
+- name: "Verify TLS certificate is not expired"
+  ansible.builtin.assert:
+    that:
+      - cert_dates.rc == 0
+    fail_msg: "NIST Check Failed: TLS certificate check failed (expired or not found)!"
+    success_msg: "NIST Check Passed: TLS certificate is valid."
+  register: check_tls
+  ignore_errors: true
+
+- name: "Collect Encryption results"
+  ansible.builtin.set_fact:
+    nist_results: "{{ nist_results | default([]) + [
+      {'control': 'Encryption', 'check': 'LUKS Encryption on Data Volumes', 'status': 'PASS' if not check_luks.failed else 'FAIL'},
+      {'control': 'Encryption', 'check': 'TLS Certificate Valid',           'status': 'PASS' if not check_tls.failed  else 'FAIL'},
+    ] }}"

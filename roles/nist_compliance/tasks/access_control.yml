@@ -1,0 +1,147 @@
+---
+# roles/nist_compliance/tasks/access_control.yml
+# ตาม source: access_control.yml + validate_compliance.yml
+# - Password complexity (pwquality.conf): minlen, dcredit, ucredit, lcredit
+# - SSH root login disabled (sshd -T)
+# - Account lockout (faillock.conf deny=5)
+# - SSH hardening: PasswordAuthentication, X11Forwarding, MaxAuthTries, ClientAliveInterval
+
+- name: "Check SSH configuration (sshd -T)"
+  ansible.builtin.command: sshd -T
+  register: sshd_config
+  changed_when: false
+  check_mode: false
+
+- name: "Assert SSH hardening - PermitRootLogin no"
+  ansible.builtin.assert:
+    that:
+      - "'permitrootlogin no' in sshd_config.stdout"
+    fail_msg: "NIST Check Failed: SSH Root Login is still ENABLED!"
+    success_msg: "NIST Check Passed: SSH Root Login is DISABLED."
+  register: check_ssh_root
+  ignore_errors: true
+
+- name: "Assert SSH hardening - PasswordAuthentication no"
+  ansible.builtin.assert:
+    that:
+      - "'passwordauthentication no' in sshd_config.stdout"
+    fail_msg: "NIST Check Failed: PasswordAuthentication is ENABLED!"
+    success_msg: "NIST Check Passed: PasswordAuthentication is DISABLED."
+  register: check_ssh_password
+  ignore_errors: true
+
+- name: "Assert SSH hardening - X11Forwarding no"
+  ansible.builtin.assert:
+    that:
+      - "'x11forwarding no' in sshd_config.stdout"
+    fail_msg: "NIST Check Failed: X11Forwarding is ENABLED!"
+    success_msg: "NIST Check Passed: X11Forwarding is DISABLED."
+  register: check_ssh_x11
+  ignore_errors: true
+
+- name: "Assert SSH hardening - MaxAuthTries <= 4"
+  ansible.builtin.assert:
+    that:
+      - sshd_config.stdout | regex_search('maxauthtries\\s+(\\d+)', '\\1') | first | int <= 4
+    fail_msg: "NIST Check Failed: MaxAuthTries > 4!"
+    success_msg: "NIST Check Passed: MaxAuthTries is within limit."
+  register: check_ssh_maxauth
+  ignore_errors: true
+
+- name: "Assert SSH hardening - ClientAliveInterval configured"
+  ansible.builtin.assert:
+    that:
+      - sshd_config.stdout | regex_search('clientaliveinterval\\s+(\\d+)', '\\1') | first | int > 0
+    fail_msg: "NIST Check Failed: ClientAliveInterval not set (no session timeout)!"
+    success_msg: "NIST Check Passed: ClientAliveInterval is configured."
+  register: check_ssh_timeout
+  ignore_errors: true
+
+- name: "Check account lockout configuration (faillock.conf)"
+  ansible.builtin.stat:
+    path: /etc/security/faillock.conf
+  register: faillock_file
+
+- name: "Read faillock.conf if present"
+  ansible.builtin.slurp:
+    src: /etc/security/faillock.conf
+  register: faillock_content
+  when: faillock_file.stat.exists
+  ignore_errors: true
+
+- name: "Assert account lockout - deny <= 5 attempts"
+  ansible.builtin.assert:
+    that:
+      - faillock_file.stat.exists
+      - (faillock_content.content | b64decode) is regex('^\s*deny\s*=\s*[1-5]\s*$', multiline=True)
+    fail_msg: "NIST Check Failed: Account lockout (deny) not properly configured!"
+    success_msg: "NIST Check Passed: Account lockout configured (<= 5 attempts)."
+  register: check_lockout
+  ignore_errors: true
+
+- name: "Check password complexity configuration (pwquality.conf)"
+  ansible.builtin.stat:
+    path: /etc/security/pwquality.conf
+  register: pwquality_file
+
+- name: "Read pwquality.conf"
+  ansible.builtin.slurp:
+    src: /etc/security/pwquality.conf
+  register: pwquality_content
+  when: pwquality_file.stat.exists
+  ignore_errors: true
+
+- name: "Assert password complexity - minlen >= 14"
+  ansible.builtin.assert:
+    that:
+      - pwquality_file.stat.exists
+      - (pwquality_content.content | b64decode) is regex('^\s*minlen\s*=\s*(1[4-9]|[2-9]\d|\d{3,})', multiline=True)
+    fail_msg: "NIST Check Failed: Password minimum length not >= 14!"
+    success_msg: "NIST Check Passed: Password minimum length >= 14."
+  register: check_pw_minlen
+  ignore_errors: true
+
+- name: "Assert password complexity - dcredit (digit required)"
+  ansible.builtin.assert:
+    that:
+      - pwquality_file.stat.exists
+      - (pwquality_content.content | b64decode) is regex('^\s*dcredit\s*=\s*-', multiline=True)
+    fail_msg: "NIST Check Failed: Password digit credit (dcredit) not configured!"
+    success_msg: "NIST Check Passed: Password digit credit configured."
+  register: check_pw_dcredit
+  ignore_errors: true
+
+- name: "Assert password complexity - ucredit (uppercase required)"
+  ansible.builtin.assert:
+    that:
+      - pwquality_file.stat.exists
+      - (pwquality_content.content | b64decode) is regex('^\s*ucredit\s*=\s*-', multiline=True)
+    fail_msg: "NIST Check Failed: Password uppercase credit (ucredit) not configured!"
+    success_msg: "NIST Check Passed: Password uppercase credit configured."
+  register: check_pw_ucredit
+  ignore_errors: true
+
+- name: "Assert password complexity - lcredit (lowercase required)"
+  ansible.builtin.assert:
+    that:
+      - pwquality_file.stat.exists
+      - (pwquality_content.content | b64decode) is regex('^\s*lcredit\s*=\s*-', multiline=True)
+    fail_msg: "NIST Check Failed: Password lowercase credit (lcredit) not configured!"
+    success_msg: "NIST Check Passed: Password lowercase credit configured."
+  register: check_pw_lcredit
+  ignore_errors: true
+
+- name: "Collect Access Control results"
+  ansible.builtin.set_fact:
+    nist_results: "{{ nist_results | default([]) + [
+      {'control': 'SSH',      'check': 'PermitRootLogin no',            'status': 'PASS' if not check_ssh_root.failed    else 'FAIL'},
+      {'control': 'SSH',      'check': 'PasswordAuthentication no',     'status': 'PASS' if not check_ssh_password.failed else 'FAIL'},
+      {'control': 'SSH',      'check': 'X11Forwarding no',              'status': 'PASS' if not check_ssh_x11.failed      else 'FAIL'},
+      {'control': 'SSH',      'check': 'MaxAuthTries <= 4',             'status': 'PASS' if not check_ssh_maxauth.failed  else 'FAIL'},
+      {'control': 'SSH',      'check': 'ClientAliveInterval Configured','status': 'PASS' if not check_ssh_timeout.failed  else 'FAIL'},
+      {'control': 'Lockout',  'check': 'faillock deny <= 5',            'status': 'PASS' if not check_lockout.failed      else 'FAIL'},
+      {'control': 'Password', 'check': 'minlen >= 14',                  'status': 'PASS' if not check_pw_minlen.failed    else 'FAIL'},
+      {'control': 'Password', 'check': 'dcredit (digit required)',      'status': 'PASS' if not check_pw_dcredit.failed   else 'FAIL'},
+      {'control': 'Password', 'check': 'ucredit (uppercase required)',  'status': 'PASS' if not check_pw_ucredit.failed   else 'FAIL'},
+      {'control': 'Password', 'check': 'lcredit (lowercase required)',  'status': 'PASS' if not check_pw_lcredit.failed   else 'FAIL'},
+    ] }}"

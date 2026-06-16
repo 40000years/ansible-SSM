@@ -1,0 +1,84 @@
+---
+# roles/nist_compliance/tasks/report.yml
+# Generate NIST SP 800-53 compliance report
+
+- name: "Calculate compliance statistics"
+  ansible.builtin.set_fact:
+    total_checks: "{{ nist_results | length }}"
+    passed_checks: "{{ nist_results | selectattr('status', 'equalto', 'PASS') | list | length }}"
+    failed_checks: "{{ nist_results | selectattr('status', 'equalto', 'FAIL') | list | length }}"
+  tags: [report]
+
+- name: "Calculate compliance score"
+  ansible.builtin.set_fact:
+    compliance_score: "{{ ((passed_checks | int * 100) / (total_checks | int)) | round(1) }}"
+  tags: [report]
+
+- name: "Print NIST SP 800-53 Compliance Report"
+  ansible.builtin.debug:
+    msg: |
+      ==========================================
+       NIST SP 800-53 Compliance Report
+      ==========================================
+       Host    : {{ inventory_hostname }}
+       Date    : {{ ansible_date_time.iso8601 }}
+      ------------------------------------------
+       TOTAL   : {{ total_checks }}
+       PASSED  : {{ passed_checks }}
+       FAILED  : {{ failed_checks }}
+       SCORE   : {{ compliance_score }}%
+      ==========================================
+       RESULTS BY CONTROL
+      ==========================================
+      {% for result in nist_results %}
+       [{{ result.status }}] {{ result.control }} - {{ result.check }}
+      {% endfor %}
+      ==========================================
+  tags: [report]
+
+
+- name: "Generate JSON compliance report"
+  ansible.builtin.copy:
+    dest: "/tmp/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.json"
+    content: "{{ {'host': inventory_hostname, 'date': ansible_date_time.iso8601, 'score': compliance_score, 'total': total_checks, 'passed': passed_checks, 'failed': failed_checks, 'results': nist_results} | to_nice_json }}"
+    mode: '0640'
+  tags: [report]
+
+- name: "Fetch JSON report to controller"
+  ansible.builtin.fetch:
+    src: "/tmp/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.json"
+    dest: "./reports/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.json"
+    flat: true
+  tags: [report]
+
+- name: "Generate HTML compliance report"
+  ansible.builtin.template:
+    src: compliance_report.html.j2
+    dest: "/tmp/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.html"
+    mode: '0640'
+  tags: [report]
+
+- name: "Fetch HTML report to controller"
+  ansible.builtin.fetch:
+    src: "/tmp/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.html"
+    dest: "./reports/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.html"
+    flat: true
+  tags: [report]
+
+- name: "Open HTML report in browser on controller"
+  ansible.builtin.command: "open {{ playbook_dir }}/reports/nist_compliance_{{ inventory_hostname }}_{{ ansible_date_time.date }}.html"
+  delegate_to: localhost
+  become: false
+  changed_when: false
+  failed_when: false
+  tags: [report]
+
+- name: "Fail play if compliance score is below threshold"
+  ansible.builtin.fail:
+    msg: >
+      NIST Compliance score {{ compliance_score }}% is below the required threshold of
+      {{ nist_min_score | default(80) }}%. Review failed controls and remediate.
+  when:
+    - compliance_score | float < (nist_min_score | default(80) | float)
+    - nist_fail_on_low_score | default(false) | bool
+  tags: [report]

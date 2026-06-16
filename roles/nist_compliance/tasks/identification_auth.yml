@@ -1,0 +1,46 @@
+---
+# roles/nist_compliance/tasks/identification_auth.yml
+# ตาม source: remediate_compliance.yml (password aging section) + access_control.yml
+# - Password aging: PASS_MAX_DAYS 90, PASS_MIN_DAYS 7, PASS_WARN_AGE 14
+# Note: minlen/dcredit/ucredit/lcredit อยู่ใน access_control.yml แล้ว
+
+- name: "Check password aging configuration (login.defs)"
+  ansible.builtin.slurp:
+    src: /etc/login.defs
+  register: login_defs
+  ignore_errors: true
+
+- name: "Assert PASS_MAX_DAYS <= 90"
+  ansible.builtin.assert:
+    that:
+      - (login_defs.content | b64decode) is regex('^\s*PASS_MAX_DAYS\s+([1-9]|[1-8]\d|90)\s*$', multiline=True)
+    fail_msg: "NIST Check Failed: PASS_MAX_DAYS not set to <= 90 days!"
+    success_msg: "NIST Check Passed: PASS_MAX_DAYS is <= 90 days."
+  register: check_max_days
+  ignore_errors: true
+
+- name: "Assert PASS_MIN_DAYS >= 7"
+  ansible.builtin.assert:
+    that:
+      - (login_defs.content | b64decode) is regex('^\s*PASS_MIN_DAYS\s+([7-9]|\d{2,})\s*$', multiline=True)
+    fail_msg: "NIST Check Failed: PASS_MIN_DAYS not set to >= 7 days!"
+    success_msg: "NIST Check Passed: PASS_MIN_DAYS is >= 7 days."
+  register: check_min_days
+  ignore_errors: true
+
+- name: "Assert PASS_WARN_AGE >= 14"
+  ansible.builtin.assert:
+    that:
+      - (login_defs.content | b64decode) is regex('^\s*PASS_WARN_AGE\s+(1[4-9]|[2-9]\d|\d{3,})\s*$', multiline=True)
+    fail_msg: "NIST Check Failed: PASS_WARN_AGE not set to >= 14 days!"
+    success_msg: "NIST Check Passed: PASS_WARN_AGE is >= 14 days."
+  register: check_warn_age
+  ignore_errors: true
+
+- name: "Collect Password Aging results"
+  ansible.builtin.set_fact:
+    nist_results: "{{ nist_results | default([]) + [
+      {'control': 'Password Aging', 'check': 'PASS_MAX_DAYS <= 90',  'status': 'PASS' if not check_max_days.failed  else 'FAIL'},
+      {'control': 'Password Aging', 'check': 'PASS_MIN_DAYS >= 7',   'status': 'PASS' if not check_min_days.failed  else 'FAIL'},
+      {'control': 'Password Aging', 'check': 'PASS_WARN_AGE >= 14',  'status': 'PASS' if not check_warn_age.failed  else 'FAIL'},
+    ] }}"

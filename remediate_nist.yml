@@ -1,0 +1,26 @@
+---
+- name: NIST Compliance Remediation
+  hosts: all
+  become: yes
+  tasks:
+    # ตัด update_cache: yes ออก เพราะเครื่องไม่มีเน็ต
+    - name: Ensure SSH root login is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
+      notify: restart sshd
+
+    - name: Ensure password complexity lines exist
+      ansible.builtin.lineinfile:
+        path: /etc/security/pwquality.conf
+        regexp: '^minlen'
+        line: 'minlen = 14'
+        create: yes
+      notify: restart sshd
+
+  handlers:
+    - name: restart sshd
+      ansible.builtin.service:
+        name: ssh
+        state: restarted

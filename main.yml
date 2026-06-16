@@ -1,0 +1,9 @@
+---
+# ansible-SSM/main.yml
+# Entry point - choose which playbook to run
+# Usage:
+#   ansible-playbook main.yml -i inventory.aws_ec2.yml -e "mode=check"
+#   ansible-playbook main.yml -i inventory.aws_ec2.yml -e "mode=remediate"
+
+- name: "NIST SP 800-53 Compliance Automation"
+  import_playbook: "{{ 'playbooks/nist_remediate.yml' if mode | default('check') == 'remediate' else 'playbooks/nist_check.yml' }}"
