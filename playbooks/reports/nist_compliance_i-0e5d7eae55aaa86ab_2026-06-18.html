@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NIST SP 800-53 Compliance Report — i-0b192fa250b67431a</title>
+  <title>NIST SP 800-53 Compliance Report — i-0e5d7eae55aaa86ab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -108,7 +108,7 @@
       stroke-linecap: round;
       stroke: url(#ringGradient);
       stroke-dasharray: 345;
-      stroke-dashoffset: 38.29;
+      stroke-dashoffset: 306.7;
       transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1);
       filter: drop-shadow(0 0 8px rgba(99,102,241,0.5));
     }
@@ -312,12 +312,12 @@
       <div class="hero-meta">
         <div class="hero-meta-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          <span>Host:</span> <strong>i-0b192fa250b67431a</strong>
+          <span>Host:</span> <strong>i-0e5d7eae55aaa86ab</strong>
         </div>
         <div class="hero-meta-dot"></div>
         <div class="hero-meta-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Generated:</span> <strong>2026-06-18T04:58:48Z</strong>
+          <span>Generated:</span> <strong>2026-06-18T04:58:43Z</strong>
         </div>
       </div>
     </div>
@@ -336,7 +336,7 @@
           <circle class="score-ring-fill" cx="65" cy="65" r="55"/>
         </svg>
         <div class="score-ring-center">
-          <div class="score-ring-number">88.9</div>
+          <div class="score-ring-number">11.1</div>
           <div class="score-ring-pct">% SCORE</div>
         </div>
       </div>
@@ -358,13 +358,13 @@
     </div>
     <div class="stat-card pass-card">
       <div class="stat-icon">✅</div>
-      <div class="stat-number">16</div>
+      <div class="stat-number">2</div>
       <div class="stat-label">Passed</div>
       <div class="stat-sub">Controls compliant</div>
     </div>
     <div class="stat-card fail-card">
       <div class="stat-icon">❌</div>
-      <div class="stat-number">2</div>
+      <div class="stat-number">16</div>
       <div class="stat-label">Failed</div>
       <div class="stat-sub">Remediation required</div>
     </div>
@@ -374,10 +374,10 @@
   <div class="score-section">
     <div class="score-section-header">
       <div class="score-section-title">Overall Compliance Score</div>
-      <div class="score-pct-text">88.9%</div>
+      <div class="score-pct-text">11.1%</div>
     </div>
     <div class="score-track">
-      <div class="score-fill" id="scoreBar" style="width: 88.9%;"></div>
+      <div class="score-fill" id="scoreBar" style="width: 11.1%;"></div>
     </div>
     <div class="score-markers">
       <span class="score-marker">0%</span>
@@ -396,10 +396,10 @@
         All <span class="tab-badge">18</span>
       </button>
       <button class="tab-btn fail-tab has-fails" data-filter="fail">
-        Failed <span class="tab-badge">2</span>
+        Failed <span class="tab-badge">16</span>
       </button>
       <button class="tab-btn pass-tab" data-filter="pass">
-        Passed <span class="tab-badge">16</span>
+        Passed <span class="tab-badge">2</span>
       </button>
     </div>
   </div>
@@ -407,23 +407,23 @@
   <!-- Checklist -->
   
   <div class="checklist" id="checklistContainer">
-        <div class="checklist-item pass-item" style="animation-delay: 0.0s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.0s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">SSH</span>
+          <span class="control-chip fail-chip">SSH</span>
           <span class="item-name">PermitRootLogin no</span>
         </div>
         <div class="item-desc">ปิดการล็อกอินด้วยผู้ใช้ root ผ่าน SSH เพื่อป้องกันการเข้าถึงแบบไม่จำกัดสิทธิ์โดยตรง</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
@@ -447,163 +447,163 @@
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.08s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.08s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">SSH</span>
+          <span class="control-chip fail-chip">SSH</span>
           <span class="item-name">X11Forwarding no</span>
         </div>
         <div class="item-desc">ปิด X11 Forwarding เพื่อลดความเสี่ยงจากการโจมตีผ่านโปรโตคอล X11</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.12s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.12s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">SSH</span>
+          <span class="control-chip fail-chip">SSH</span>
           <span class="item-name">MaxAuthTries <= 4</span>
         </div>
         <div class="item-desc">จำกัดจำนวนครั้งในการพยายามล็อกอิน SSH ไม่เกิน 4 ครั้งต่อการเชื่อมต่อ</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.16s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.16s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">SSH</span>
+          <span class="control-chip fail-chip">SSH</span>
           <span class="item-name">ClientAliveInterval Configured</span>
         </div>
         <div class="item-desc">ตัดการเชื่อมต่อ SSH อัตโนมัติเมื่อไม่มีการใช้งาน เพื่อป้องกัน session ค้าง</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.2s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.2s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Lockout</span>
+          <span class="control-chip fail-chip">Lockout</span>
           <span class="item-name">faillock deny <= 5</span>
         </div>
         <div class="item-desc">ระงับบัญชีชั่วคราว หากพยายามล็อกอินผิดพลาดเกิน 5 ครั้งติดต่อกัน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.24s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.24s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">minlen >= 14</span>
         </div>
         <div class="item-desc">กำหนดให้รหัสผ่านต้องมีความยาวอย่างน้อย 14 ตัวอักษรเพื่อความแข็งแกร่ง</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.28s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.28s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">dcredit (digit required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวเลข (0-9) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.32s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.32s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">ucredit (uppercase required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.36s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.36s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">lcredit (lowercase required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
@@ -647,103 +647,103 @@
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.48s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.48s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Audit</span>
+          <span class="control-chip fail-chip">Audit</span>
           <span class="item-name">auditd Service Running</span>
         </div>
         <div class="item-desc">บริการ Auditd ต้องทำงานตลอดเวลาเพื่อบันทึกเหตุการณ์สำคัญในระบบ</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.52s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.52s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Audit</span>
+          <span class="control-chip fail-chip">Audit</span>
           <span class="item-name">Login Events Audited</span>
         </div>
         <div class="item-desc">บันทึกการล็อกอินเข้าสู่ระบบทั้งหมด ทั้งสำเร็จและล้มเหลว</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.56s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.56s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Audit</span>
+          <span class="control-chip fail-chip">Audit</span>
           <span class="item-name">Identity Changes Audited</span>
         </div>
         <div class="item-desc">บันทึกการแก้ไขไฟล์ยืนยันตัวตน เช่น /etc/passwd และ /etc/shadow</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.6s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.6s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Audit</span>
+          <span class="control-chip fail-chip">Audit</span>
           <span class="item-name">Sudo Usage Audited</span>
         </div>
         <div class="item-desc">บันทึกคำสั่งทุกคำสั่งที่ถูกเรียกผ่าน sudo ในระบบ Audit</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.64s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.64s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Network</span>
+          <span class="control-chip fail-chip">Network</span>
           <span class="item-name">Firewall (ufw) Active</span>
         </div>
         <div class="item-desc">Firewall ต้องทำงานอยู่เพื่อควบคุมการเข้าถึงเครือข่ายจากภายนอก</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
@@ -782,7 +782,7 @@
   <div class="footer-dot"></div>
   <span>Generated by Ansible</span>
   <div class="footer-dot"></div>
-  <span>2026-06-18T04:58:48Z</span>
+  <span>2026-06-18T04:58:43Z</span>
 </div>
 
 <script>

@@ -31,6 +31,8 @@ services:
       - ..:/home/semaphore/ansible-SSM:ro
       # Override reports dir ให้ write ได้ (fetch JSON report จาก EC2 มาเก็บบน host)
       - ../playbooks/reports:/home/semaphore/ansible-SSM/playbooks/reports:rw
+      # Mount UBUNTU24-STIG จาก host ไปยัง container ที่ path เดียวกัน
+      - /Users/user/Documents/GitHub/UBUNTU24-STIG:/Users/user/Documents/GitHub/UBUNTU24-STIG:ro
     restart: unless-stopped
     dns:
       - 8.8.8.8
