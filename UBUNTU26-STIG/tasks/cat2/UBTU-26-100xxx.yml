@@ -168,31 +168,23 @@
     - pam
     - password
 
-# ─── UBTU-26-100900 | Session Timeout ────────────────────────────────────────
-- name: "UBTU-26-100900 | CAT II | PATCH | Set TMOUT for interactive shell sessions"
-  ansible.builtin.lineinfile:
-    path: /etc/profile.d/99-stig-tmout.sh
+# ─── UBTU-26-100900 & 100910 | Session Timeout ───────────────────────────────
+- name: "UBTU-26-100900 & 100910 | CAT II | PATCH | Configure TMOUT for interactive shell sessions"
+  ansible.builtin.copy:
+    dest: /etc/profile.d/99-stig-tmout.sh
+    content: |
+      TMOUT={{ ubtu26stig_session_timeout }}
+      export TMOUT
+      readonly TMOUT
     create: true
-    line: "TMOUT={{ ubtu26stig_session_timeout }}"
     mode: '0644'
     owner: root
     group: root
-    state: present
-  when: ubtu26stig_100900 | bool
+  when: 
+    - ubtu26stig_100900 | bool
+    - ubtu26stig_100910 | bool
   tags:
     - UBTU-26-100900
-    - CAT2
-    - patch
-    - session
-
-- name: "UBTU-26-100910 | CAT II | PATCH | Export and readonly TMOUT"
-  ansible.builtin.lineinfile:
-    path: /etc/profile.d/99-stig-tmout.sh
-    line: "readonly TMOUT"
-    insertafter: "^TMOUT="
-    state: present
-  when: ubtu26stig_100910 | bool
-  tags:
     - UBTU-26-100910
     - CAT2
     - patch
