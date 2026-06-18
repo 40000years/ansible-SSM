@@ -3,6 +3,19 @@
 # CAT II — Account/Authentication + sudo-rs Controls
 
 # ─── UBTU-26-100100–100130 | Password Complexity ──────────────────────────────
+- name: "Ensure pwquality.conf exists before configuring"
+  ansible.builtin.copy:
+    dest: /etc/security/pwquality.conf
+    content: ""
+    force: false
+    mode: '0644'
+    owner: root
+    group: root
+  tags:
+    - CAT2
+    - patch
+    - password
+
 - name: "UBTU-26-100100 | CAT II | PATCH | Set minimum password length in pwquality"
   ansible.builtin.lineinfile:
     path: /etc/security/pwquality.conf
