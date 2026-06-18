@@ -1,0 +1,38 @@
+# semaphore/docker-compose.yml
+# Semaphore UI + AWS SSM connection — ไม่ต้อง SSH key!
+services:
+  semaphore:
+    build: .
+    image: semaphore-aws-ssm:latest
+    ports:
+      - "3000:3000"
+    environment:
+      SEMAPHORE_DB_DIALECT: sqlite
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ADMIN_PASSWORD: password123
+      SEMAPHORE_ADMIN_NAME: Admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      # AWS Region (IAM Role บน EC2 จัดการ credentials อัตโนมัติ)
+      AWS_DEFAULT_REGION: ap-southeast-1
+      # ชี้ boto3/awscli ไปยัง credentials ที่ entrypoint copy มา (สำหรับ Mac local)
+      AWS_SHARED_CREDENTIALS_FILE: /home/semaphore/.aws/credentials
+      AWS_CONFIG_FILE: /home/semaphore/.aws/config
+      # บอกให้ Semaphore ส่งต่อ AWS environment variables ไปยัง subprocess ที่ใช้รัน Ansible
+      SEMAPHORE_FORWARDED_ENV_VARS: '["AWS_SHARED_CREDENTIALS_FILE", "AWS_CONFIG_FILE", "AWS_DEFAULT_REGION", "AWS_PROFILE"]'
+    volumes:
+      # Semaphore data (database, etc.)
+      - ./data:/var/lib/semaphore
+      # AWS credentials: mount ไปยัง temp dir — entrypoint จะ copy + fix permissions
+      # (บน EC2 ที่มี IAM Role ลบ 2 บรรทัดนี้ออกได้เลย)
+      - ~/.aws:/tmp/host-aws:ro
+      # ansible.cfg — โหลด inventory plugin (amazon.aws.aws_ec2)
+      - ../ansible.cfg:/etc/ansible/ansible.cfg:ro
+      # Mount ทั้ง repo — Semaphore เข้าถึง playbooks, roles, inventory ได้ครบ
+      - ..:/home/semaphore/ansible-SSM:ro
+      # Override reports dir ให้ write ได้ (fetch JSON report จาก EC2 มาเก็บบน host)
+      - ../playbooks/reports:/home/semaphore/ansible-SSM/playbooks/reports:rw
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+

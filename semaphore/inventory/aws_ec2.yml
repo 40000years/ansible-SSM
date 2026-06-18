@@ -1,3 +1,8 @@
+# semaphore/inventory/aws_ec2.yml
+# Dynamic Inventory สำหรับ AWS EC2 ใช้งานผ่าน Semaphore
+# เชื่อมต่อผ่าน AWS SSM Session Manager โดยตรง — ไม่ต้องใช้ SSH key เลย!
+# ต้องการแค่ IAM Role ที่มี ssm:StartSession permission
+
 plugin: amazon.aws.aws_ec2
 regions:
   - ap-southeast-1

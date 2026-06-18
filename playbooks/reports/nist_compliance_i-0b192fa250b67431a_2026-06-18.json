@@ -1,8 +1,8 @@
 {
-    "date": "2026-06-16T10:33:59Z",
-    "failed": 6,
+    "date": "2026-06-18T03:40:10Z",
+    "failed": 2,
     "host": "i-0b192fa250b67431a",
-    "passed": 12,
+    "passed": 16,
     "results": [
         {
             "check": "PermitRootLogin no",
@@ -37,22 +37,22 @@
         {
             "check": "minlen >= 14",
             "control": "Password",
-            "status": "FAIL"
+            "status": "PASS"
         },
         {
             "check": "dcredit (digit required)",
             "control": "Password",
-            "status": "FAIL"
+            "status": "PASS"
         },
         {
             "check": "ucredit (uppercase required)",
             "control": "Password",
-            "status": "FAIL"
+            "status": "PASS"
         },
         {
             "check": "lcredit (lowercase required)",
             "control": "Password",
-            "status": "FAIL"
+            "status": "PASS"
         },
         {
             "check": "LUKS Encryption on Data Volumes",
@@ -95,6 +95,6 @@
             "status": "PASS"
         }
     ],
-    "score": 66.7,
+    "score": 88.9,
     "total": 18
 }

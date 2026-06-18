@@ -108,7 +108,7 @@
       stroke-linecap: round;
       stroke: url(#ringGradient);
       stroke-dasharray: 345;
-      stroke-dashoffset: 38.29;
+      stroke-dashoffset: 114.88;
       transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1);
       filter: drop-shadow(0 0 8px rgba(99,102,241,0.5));
     }
@@ -317,7 +317,7 @@
         <div class="hero-meta-dot"></div>
         <div class="hero-meta-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Generated:</span> <strong>2026-06-16T04:40:19Z</strong>
+          <span>Generated:</span> <strong>2026-06-16T10:33:59Z</strong>
         </div>
       </div>
     </div>
@@ -336,7 +336,7 @@
           <circle class="score-ring-fill" cx="65" cy="65" r="55"/>
         </svg>
         <div class="score-ring-center">
-          <div class="score-ring-number">88.9</div>
+          <div class="score-ring-number">66.7</div>
           <div class="score-ring-pct">% SCORE</div>
         </div>
       </div>
@@ -358,13 +358,13 @@
     </div>
     <div class="stat-card pass-card">
       <div class="stat-icon">✅</div>
-      <div class="stat-number">16</div>
+      <div class="stat-number">12</div>
       <div class="stat-label">Passed</div>
       <div class="stat-sub">Controls compliant</div>
     </div>
     <div class="stat-card fail-card">
       <div class="stat-icon">❌</div>
-      <div class="stat-number">2</div>
+      <div class="stat-number">6</div>
       <div class="stat-label">Failed</div>
       <div class="stat-sub">Remediation required</div>
     </div>
@@ -374,10 +374,10 @@
   <div class="score-section">
     <div class="score-section-header">
       <div class="score-section-title">Overall Compliance Score</div>
-      <div class="score-pct-text">88.9%</div>
+      <div class="score-pct-text">66.7%</div>
     </div>
     <div class="score-track">
-      <div class="score-fill" id="scoreBar" style="width: 88.9%;"></div>
+      <div class="score-fill" id="scoreBar" style="width: 66.7%;"></div>
     </div>
     <div class="score-markers">
       <span class="score-marker">0%</span>
@@ -396,10 +396,10 @@
         All <span class="tab-badge">18</span>
       </button>
       <button class="tab-btn fail-tab has-fails" data-filter="fail">
-        Failed <span class="tab-badge">2</span>
+        Failed <span class="tab-badge">6</span>
       </button>
       <button class="tab-btn pass-tab" data-filter="pass">
-        Passed <span class="tab-badge">16</span>
+        Passed <span class="tab-badge">12</span>
       </button>
     </div>
   </div>
@@ -527,83 +527,83 @@
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.24s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.24s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">minlen >= 14</span>
         </div>
         <div class="item-desc">กำหนดให้รหัสผ่านต้องมีความยาวอย่างน้อย 14 ตัวอักษรเพื่อความแข็งแกร่ง</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.28s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.28s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">dcredit (digit required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวเลข (0-9) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.32s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.32s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">ucredit (uppercase required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
-        <div class="checklist-item pass-item" style="animation-delay: 0.36s">
-      <div class="item-indicator pass">
+        <div class="checklist-item fail-item" style="animation-delay: 0.36s">
+      <div class="item-indicator fail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
               </div>
       <div class="item-body">
         <div class="item-row1">
-          <span class="control-chip pass-chip">Password</span>
+          <span class="control-chip fail-chip">Password</span>
           <span class="item-name">lcredit (lowercase required)</span>
         </div>
         <div class="item-desc">รหัสผ่านต้องมีตัวพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวเพื่อเพิ่มความซับซ้อน</div>
       </div>
       <div class="item-badge-wrap">
-        <span class="status-badge pass">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          PASS
+        <span class="status-badge fail">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          FAIL
                   </span>
       </div>
     </div>
@@ -782,7 +782,7 @@
   <div class="footer-dot"></div>
   <span>Generated by Ansible</span>
   <div class="footer-dot"></div>
-  <span>2026-06-16T04:40:19Z</span>
+  <span>2026-06-16T10:33:59Z</span>
 </div>
 
 <script>

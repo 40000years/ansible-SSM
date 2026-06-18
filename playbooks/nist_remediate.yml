@@ -100,9 +100,14 @@
       tags: [ac, lockout]
 
     # ─── AU: Audit Logging ───────────────────────────────────────────────────
+    - name: "Detect auditd package name"
+      ansible.builtin.set_fact:
+        auditd_pkg: "{{ 'auditd' if ansible_os_family == 'Debian' else 'audit' }}"
+      tags: [au, audit]
+
     - name: "[AU-2] Install auditd"
       ansible.builtin.package:
-        name: "{{ 'auditd' if ansible_os_family == 'Debian' else 'audit' }}"
+        name: "{{ auditd_pkg }}"
         state: present
       tags: [au, audit]
 
@@ -134,7 +139,7 @@
           # === AU-12: Authentication events ===
           -w /var/log/faillog -p wa -k logins
           -w /var/log/lastlog -p wa -k logins
-          -w /var/log/tallylog -p wa -k logins
+          -w /var/run/faillock -p wa -k logins
 
           # === AU-12: Identity / account changes ===
           -w /etc/passwd -p wa -k identity
@@ -142,14 +147,24 @@
           -w /etc/shadow -p wa -k identity
           -w /etc/gshadow -p wa -k identity
           -w /etc/security/opasswd -p wa -k identity
+          -w /etc/nsswitch.conf -p wa -k identity
+          -w /etc/pam.conf -p wa -k identity
+          -w /etc/pam.d -p wa -k identity
 
           # === AU-12: Privilege escalation (sudo) ===
-          -w /etc/sudoers -p wa -k actions
-          -w /etc/sudoers.d/ -p wa -k actions
-          -w /var/log/sudo.log -p wa -k actions
+          -w /etc/sudoers -p wa -k scope
+          -w /etc/sudoers.d -p wa -k scope
+          -w /var/log/sudo.log -p wa -k sudo_log_file
+          -a always,exit -F arch=b64 -S execve -C uid!=euid -F auid!=-1 -F key=user_emulation
+          -a always,exit -F arch=b32 -S execve -C uid!=euid -F auid!=-1 -F key=user_emulation
 
           # === AU-12: SSH configuration changes ===
           -w /etc/ssh/sshd_config -p wa -k sshd
+
+          # === AU-12: Session events ===
+          -w /var/run/utmp -p wa -k session
+          -w /var/log/wtmp -p wa -k session
+          -w /var/log/btmp -p wa -k session
 
           # === AU-12: Cron jobs ===
           -w /etc/cron.allow -p wa -k cron
@@ -161,7 +176,7 @@
           -w /sbin/insmod -p x -k modules
           -w /sbin/rmmod -p x -k modules
           -w /sbin/modprobe -p x -k modules
-          -a always,exit -F arch=b64 -S init_module -S delete_module -k modules
+          -a always,exit -F arch=b64 -S init_module,delete_module,finit_module -F key=kernel_modules
       notify: restart auditd
       tags: [au, audit]
 
@@ -228,3 +243,31 @@
         regexp: '^#?UMASK'
         line: 'UMASK 027'
       tags: [cm, umask]
+
+    # ─── SC-7: Firewall (ufw) ────────────────────────────────────────────────
+    - name: "[SC-7] Install ufw"
+      ansible.builtin.package:
+        name: ufw
+        state: present
+      tags: [sc, firewall]
+
+    - name: "[SC-7] Allow SSH through firewall before enabling"
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+      tags: [sc, firewall]
+
+    - name: "[SC-7] Allow SSH port 22 explicitly"
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+      tags: [sc, firewall]
+
+    - name: "[SC-7] Enable ufw (default deny incoming)"
+      community.general.ufw:
+        state: enabled
+        policy: deny
+        direction: incoming
+      tags: [sc, firewall]
+
